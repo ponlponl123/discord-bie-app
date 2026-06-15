@@ -22,10 +22,11 @@ My personal project for my private discord application with my friends.
 
 for production (or pod) deployment, the bot compiles into a standalone binary inside a builder stage and runs in a minimal alpine container:
 
-1. set your variables directly inside the `environment:` section of `docker-compose.yml`.
-2. build and run using docker compose:
+1. copy `docker-compose.yml` to `docker-compose.yml.local` (which is ignored by git).
+2. set your environment variables directly in `docker-compose.yml.local`.
+3. build and run using:
    ```bash
-   docker compose up -d --build
+   docker compose -f docker-compose.yml.local up -d --build
    ```
 
 ## contributing
