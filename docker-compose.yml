@@ -1,0 +1,9 @@
+services:
+  bot:
+    build: .
+    container_name: discord-bie-bot
+    restart: unless-stopped
+    environment:
+      - DISCORD_CLIENT_ID=your-bot-client-id
+      - DISCORD_TOKEN=your-bot-token
+      - DISCORD_TARGET_SERVER=your-target-server-id

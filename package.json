@@ -1,0 +1,21 @@
+{
+  "name": "discord-bie-app",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "bun build src/index.ts --compile",
+    "dev": "bun --watch src/index.ts",
+    "start": "./build/discord-bie-app"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "ts-better-console": "^0.1.4"
+  }
+}
