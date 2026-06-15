@@ -14,7 +14,7 @@ COPY src ./src
 COPY tsconfig.json ./
 
 # Compile bot into a single standalone binary
-RUN bun build src/index.ts --compile --outfile discord-bie-app
+RUN bun build src/index.ts --compile --minify --outfile discord-bie-app
 
 # Stage 2: Final minimal runner image
 FROM alpine:latest
