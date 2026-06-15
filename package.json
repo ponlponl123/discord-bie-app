@@ -6,7 +6,7 @@
   "scripts": {
     "build": "bun build src/index.ts --minify --compile --outfile discord-bie-app",
     "dev": "bun --watch src/index.ts",
-    "start": "./build/discord-bie-app"
+    "start": "./discord-bie-app"
   },
   "devDependencies": {
     "@types/bun": "latest"
