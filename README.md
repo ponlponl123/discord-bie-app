@@ -9,11 +9,24 @@ My personal project for my private discord application with my friends.
    ```bash
    bun install
    ```
-3. copy `.env.example` to `.env.local` and set the variables:
-   - `DISCORD_CLIENT_ID`: your discord client id.
-   - `DISCORD_TOKEN`: your bot token.
-   - `DISCORD_TARGET_SERVER`: your target guild id (for instant commands registry).
-4. start it up:
+3. Setup your database and cache. You will need:
+   - A **MySQL / MariaDB** database.
+   - A **Redis Sentinel** setup (if you run it locally in docker, Sentinel reports internal docker IPs which the app dynamically NAT-maps back to localhost for you).
+4. Copy `.env.example` to `.env.local` and set the variables:
+   - `DISCORD_CLIENT_ID`: your Discord client ID.
+   - `DISCORD_TOKEN`: your Discord bot token.
+   - `DISCORD_TARGET_SERVER`: your server's ID (for fast commands registry).
+   - `DATABASE_URL`: connection string for Prisma (e.g. `mysql://user:password@localhost:3306/dbname`).
+   - `REDIS_SENTINEL_HOSTS`: comma-separated sentinel hosts (e.g. `127.0.0.1:26379,127.0.0.1:26380`).
+   - `REDIS_SENTINEL_NAME`: name of the master group (usually `mymaster`).
+   - `REDIS_PASSWORD`: (optional) password for the Redis master/replica nodes.
+   - `REDIS_SENTINEL_PASSWORD`: (optional) password for the Redis Sentinel nodes.
+   - `NODE_ENV`: set to `development` for local testing.
+5. Generate the Prisma database client:
+   ```bash
+   npx prisma generate
+   ```
+6. Start it up:
    ```bash
    bun dev
    ```

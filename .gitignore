@@ -113,3 +113,8 @@ dist
 .tern-port
 
 *.local
+
+*.exe
+
+# Generated Prisma Client
+src/generated/

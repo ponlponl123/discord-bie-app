@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+/// Represents a pending server rename request that requires admin approval or 12-hour timeout.
+model PendingRename {
+  id           Int      @id @default(autoincrement())
+  requesterId  String
+  proposedName String   @db.VarChar(100)
+  requestTime  DateTime @default(now())
+  status       String   @default("pending") // "pending", "approved", "rejected", "auto_approved"
+  adminMsgId   String
+}
+
+/// Represents a temporary channel created by a user that is cleaned up when empty or inactive.
+model TemporaryChannel {
+  channelId   String   @id
+  creatorId   String
+  channelType String   // "vc", "text", "both"
+  createdAt   DateTime @default(now())
+}
+
+/// Represents a user guild (custom hoisted role).
+model Guild {
+  id        Int           @id @default(autoincrement())
+  name      String        @unique @db.VarChar(100)
+  ownerId   String        @unique
+  roleId    String        @unique
+  createdAt DateTime      @default(now())
+  members   GuildMember[]
+}
+
+/// Represents a member of a custom user guild.
+model GuildMember {
+  id       Int      @id @default(autoincrement())
+  guildId  Int
+  userId   String   @unique
+  joinedAt DateTime @default(now())
+  guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+}

@@ -9,6 +9,8 @@ import { tsflag } from "ts-better-console";
 import { commands } from "./commands/index.ts";
 import { events } from "./events/index.ts";
 import type { Command } from "./types.ts";
+import { connectDb } from "./core/db.ts";
+import { redisClient } from "./core/redis.ts";
 
 // Set up process-wide exception handling using structured logging
 process.on("unhandledRejection", (reason) => {
@@ -23,6 +25,18 @@ process.on("uncaughtException", (err) => {
  * Initializes and starts the Discord bot.
  */
 async function startBot(): Promise<void> {
+  // Connect and verify database connection
+  await connectDb();
+
+  // Verify Redis connectivity by performing a startup ping
+  try {
+    console.log(tsflag("info", true, "Pinging Redis Sentinel/Master..."));
+    await redisClient.ping();
+  } catch (redisErr) {
+    console.error(tsflag("error", true, "Failed to establish Redis connection", redisErr));
+    throw redisErr;
+  }
+
   console.log(tsflag("info", true, "Initializing Discord client..."));
 
   // Initialize client with minimal intents for optimal resource utilization
