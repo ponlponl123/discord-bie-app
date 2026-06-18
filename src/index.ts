@@ -28,13 +28,19 @@ async function startBot(): Promise<void> {
   // Connect and verify database connection
   await connectDb();
 
-  // Verify Redis connectivity by performing a startup ping
-  try {
-    console.log(tsflag("info", true, "Pinging Redis Sentinel/Master..."));
-    await redisClient.ping();
-  } catch (redisErr) {
-    console.error(tsflag("error", true, "Failed to establish Redis connection", redisErr));
-    throw redisErr;
+  // Verify Redis connectivity by performing a startup ping if enabled
+  if (redisClient) {
+    try {
+      console.log(tsflag("info", true, "Pinging Redis Sentinel/Master..."));
+      await redisClient.ping();
+    } catch (redisErr) {
+      console.error(tsflag("error", true, "Failed to establish Redis connection", redisErr));
+      throw redisErr;
+    }
+  } else {
+    console.log(
+      tsflag("info", true, "Redis Sentinel hosts not configured; Redis integration is disabled.")
+    );
   }
 
   console.log(tsflag("info", true, "Initializing Discord client..."));
