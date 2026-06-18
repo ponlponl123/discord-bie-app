@@ -25,13 +25,13 @@ To keep the codebase maintainable, fast, and scalable, all features must adhere 
 
 To get started with the database features:
 
-- [ ] **Install Prisma & Client**
+- [x] **Install Prisma & Client**
   - Run:
     ```bash
     bun add @prisma/client
     bun add -d prisma
     ```
-- [ ] **Initialize Prisma Schema**
+- [x] **Initialize Prisma Schema**
   - Run `npx prisma init` to generate files.
   - Configure the provider in `prisma/schema.prisma`:
     ```prisma
@@ -41,13 +41,13 @@ To get started with the database features:
     }
     ```
   - Define `DATABASE_URL="mysql://user:password@localhost:3306/dbname"` in `.env.local`.
-- [ ] **Generate Client**
+- [x] **Generate Client**
   - Define your models and run:
     ```bash
     npx prisma db push
     npx prisma generate
     ```
-- [ ] **Setup Prisma Client Wrapper**
+- [x] **Setup Prisma Client Wrapper**
   - Initialize the Prisma client once and export it inside `src/core/db.ts` (or `src/core/prisma.ts`) so it can be reused across the application:
     ```typescript
     import { PrismaClient } from "@prisma/client";
@@ -61,19 +61,19 @@ To get started with the database features:
 
 To set up cache/shared state using a Redis Sentinel cluster:
 
-- [ ] **Install Redis Client**
+- [x] **Install Redis Client**
   - Install `ioredis` (includes built-in TypeScript definitions):
     ```bash
     bun add ioredis
     ```
-- [ ] **Define Environment Variables**
+- [x] **Define Environment Variables**
   - In `.env.local`, specify sentinel details and connection flags:
     ```bash
     REDIS_SENTINEL_HOSTS="127.0.0.1:26379,127.0.0.1:26380" # comma-separated list
     REDIS_SENTINEL_NAME="mymaster"
     NODE_ENV="development" # or "production"
     ```
-- [ ] **Implement Client with Host NAT Mapping for Development**
+- [x] **Implement Client with Host NAT Mapping for Development**
   - When running locally in a dev environment (`NODE_ENV === "development"`), the Sentinel node returns the internal docker network IPs of the Redis master/slaves (e.g. `172.x.x.x`). The host machine cannot reach these directly unless they are NATed back to localhost (`127.0.0.1`).
   - Implement this connection logic inside `src/core/redis.ts`:
     ```typescript
@@ -116,13 +116,13 @@ To set up cache/shared state using a Redis Sentinel cluster:
 ### 1. Interactive Role Selection
 **Goal:** Allow members to self-assign profile/topic roles (e.g., "com-sci", "med-sci", "ai") using interactive Discord select menus.
 
-- [ ] **Define configuration schema**
+- [x] **Define configuration schema**
   - Create a JSON or Prisma configuration model to store eligible role IDs, custom emojis, descriptions, and labels.
-- [ ] **Create Admin Setup Command**
+- [x] **Create Admin Setup Command**
   - Command: `/setup` with a string option choice `role-selection:your-branch` (restricted to Administrators).
   - Logic: Generates a beautiful Discord Embed with a `StringSelectMenuBuilder` listing the configurable roles.
   - **Bot Restart Survival**: The select menu component must have a **static/persistent** custom ID (e.g., `role_select_menu`). Do not generate random custom IDs.
-- [ ] **Implement Interaction Handler**
+- [x] **Implement Interaction Handler**
   - Listen to `InteractionCreate` events.
   - Detect selection of role menu options by checking for the static custom ID (e.g., `interaction.customId === "role_select_menu"`).
   - Toggle roles: Add the role if the member doesn't have it; remove it if they do.

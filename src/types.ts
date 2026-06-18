@@ -6,6 +6,7 @@ import type {
   ChatInputCommandInteraction,
   ClientEvents,
   SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
   SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
 
@@ -19,6 +20,7 @@ export interface Command {
   readonly data:
     | SlashCommandBuilder
     | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder
     | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
 
   /**

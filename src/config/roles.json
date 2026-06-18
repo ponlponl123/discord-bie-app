@@ -1,0 +1,23 @@
+{
+  "allowChangeBranch": false,
+  "roles": [
+    {
+      "id": "1516072851399245965",
+      "label": "Computer Science",
+      "description": "Access to CS channels and discussions",
+      "emoji": "💻"
+    },
+    {
+      "id": "1516072942063194183",
+      "label": "Medical Science",
+      "description": "Access to biology, health, and medical tech channels",
+      "emoji": "💊"
+    },
+    {
+      "id": "1516073137861689404",
+      "label": "Artificial Intelligence",
+      "description": "Access to machine learning and AI research channels",
+      "emoji": "🤖"
+    }
+  ]
+}

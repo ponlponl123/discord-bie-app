@@ -1,61 +1,21 @@
 /**
- * @fileoverview Interaction Create event handler.
- * Listens for Slash Command interactions and routes them to the corresponding executor.
+ * @fileoverview Interaction Create event router.
+ * Detects the type of interaction and delegates execution to the appropriate modular sub-handler.
  */
 
-import { Collection, Events, MessageFlags } from "discord.js";
-import type { InteractionReplyOptions } from "discord.js";
-import { tsflag } from "ts-better-console";
-import type { BotEvent, Command } from "../../types.ts";
+import { Events } from "discord.js";
+import type { BotEvent } from "../../types.ts";
+import { handleChatInput } from "./handlers/chatInput.ts";
+import { handleRoleSelect } from "./handlers/roleSelect.ts";
 
 export const interactionCreate: BotEvent<Events.InteractionCreate> = {
   name: Events.InteractionCreate,
   async execute(interaction) {
-    if (!interaction.isChatInputCommand()) {
-      return;
-    }
-
-    const client = interaction.client as typeof interaction.client & {
-      commands?: Collection<string, Command>;
-    };
-
-    const command = client.commands?.get(interaction.commandName);
-
-    if (!command) {
-      console.warn(
-        tsflag("warn", true, `Received interaction for unregistered command "/${interaction.commandName}" from user ${interaction.user.tag}`)
-      );
-      await interaction.reply({
-        content: `Command "/${interaction.commandName}" is not registered.`,
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-
-    try {
-      console.log(
-        tsflag("debug", true, `Executing command "/${interaction.commandName}" for user ${interaction.user.tag} in guild ${interaction.guildId || "DM"}`)
-      );
-
-      await command.execute(interaction);
-    } catch (err) {
-      console.error(
-        tsflag("error", true, `Error executing command "/${interaction.commandName}" for user ${interaction.user.tag}:`, err)
-      );
-
-      const errorMessage: InteractionReplyOptions = {
-        content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
-      };
-
-      if (interaction.replied || interaction.deferred) {
-        await interaction.followUp(errorMessage).catch((followUpErr) => {
-          console.error(tsflag("error", true, "Failed to send error followUp message", followUpErr));
-        });
-      } else {
-        await interaction.reply(errorMessage).catch((replyErr) => {
-          console.error(tsflag("error", true, "Failed to send error reply message", replyErr));
-        });
+    if (interaction.isChatInputCommand()) {
+      await handleChatInput(interaction);
+    } else if (interaction.isStringSelectMenu()) {
+      if (interaction.customId === "role_select_menu") {
+        await handleRoleSelect(interaction);
       }
     }
   },
