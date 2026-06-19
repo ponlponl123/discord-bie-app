@@ -6,7 +6,6 @@
 import { ping } from "./ping.ts";
 import { info } from "./info.ts";
 import { help } from "./help.ts";
-import { setup } from "./setup.ts";
 import type { Command } from "../types.ts";
 
 /**
@@ -16,5 +15,4 @@ export const commands: readonly Command[] = [
   ping,
   info,
   help,
-  setup,
 ];

@@ -113,28 +113,28 @@ To set up cache/shared state using a Redis Sentinel cluster:
 
 ## Current Roadmap & Features
 
-### 1. Interactive Role Selection
-**Goal:** Allow members to self-assign profile/topic roles (e.g., "com-sci", "med-sci", "ai") using interactive Discord select menus.
+### 1. Interactive Role Selection [DEPRECATED - Moved to Discord Onboarding]
+~~**Goal:** Allow members to self-assign profile/topic roles (e.g., "com-sci", "med-sci", "ai") using interactive Discord select menus.~~
 
-- [x] **Define configuration schema**
-  - Create a JSON or Prisma configuration model to store eligible role IDs, custom emojis, descriptions, and labels.
-- [x] **Create Admin Setup Command**
-  - Command: `/setup` with a string option choice `role-selection:your-branch` (restricted to Administrators).
-  - Logic: Generates a beautiful Discord Embed with a `StringSelectMenuBuilder` listing the configurable roles.
-  - **Bot Restart Survival**: The select menu component must have a **static/persistent** custom ID (e.g., `role_select_menu`). Do not generate random custom IDs.
-- [x] **Implement Interaction Handler**
-  - Listen to `InteractionCreate` events.
-  - Detect selection of role menu options by checking for the static custom ID (e.g., `interaction.customId === "role_select_menu"`).
-  - Toggle roles: Add the role if the member doesn't have it; remove it if they do.
-  - Respond with an ephemeral confirmation message: *"Added/Removed role: X"*.
+- [x] ~~**Define configuration schema**~~
+  - ~~Create a JSON or Prisma configuration model to store eligible role IDs, custom emojis, descriptions, and labels.~~
+- [x] ~~**Create Admin Setup Command**~~
+  - ~~Command: `/setup` with a string option choice `role-selection:your-branch` (restricted to Administrators).~~
+  - ~~Logic: Generates a beautiful Discord Embed with a `StringSelectMenuBuilder` listing the configurable roles.~~
+  - ~~**Bot Restart Survival**: The select menu component must have a **static/persistent** custom ID (e.g., `role_select_menu`). Do not generate random custom IDs.~~
+- [x] ~~**Implement Interaction Handler**~~
+  - ~~Listen to `InteractionCreate` events.~~
+  - ~~Detect selection of role menu options by checking for the static custom ID (e.g., `interaction.customId === "role_select_menu"`).~~
+  - ~~Toggle roles: Add the role if the member doesn't have it; remove it if they do.~~
+  - ~~Respond with an ephemeral confirmation message: *"Added/Removed role: X"*.~~
 
 ---
 
-### 2. Server Rename with Approval Queue (12-Hour Auto-Approval)
-**Goal:** Democratize server naming by letting anyone suggest a new server name, while providing a safety mechanism via moderator approval or a 12-hour timeout.
+### 2. Server Rename with Approval Queue (12-Hour Auto-Approval) [REJECTED]
+~~**Goal:** Democratize server naming by letting anyone suggest a new server name, while providing a safety mechanism via moderator approval or a 12-hour timeout.~~
 
-- [ ] **Define Prisma Model**
-  - Add to `schema.prisma`:
+- [ ] ~~**Define Prisma Model**~~
+  - ~~Add to `schema.prisma`:~~
     ```prisma
     model PendingRename {
       id           Int      @id @default(autoincrement())
@@ -145,20 +145,20 @@ To set up cache/shared state using a Redis Sentinel cluster:
       adminMsgId   String
     }
     ```
-- [ ] **Create Suggestion Command**
-  - Command: `/rename-server <new-name>` (available to everyone).
-  - Logic: Check if there is already a pending rename request. If yes, inform the user they must wait. Validate length (< 100 characters). Save the request to the database.
-- [ ] **Implement Admin Approval Interface**
-  - Send an Embed message to a designated moderator/admin channel.
-  - Include details: requester, proposed name, time remaining.
-  - Attach two buttons: "Approve" (Green) and "Reject" (Red). Use static custom IDs (e.g., `rename_approve` and `rename_reject`).
-- [ ] **Handle Button Interactions**
-  - Listen for button clicks from authorized moderators (`ManageGuild` or `Administrator` permissions) by matching the static custom IDs.
-  - If **Approve**: Rename guild immediately (`guild.setName`), set status to 'approved', update the embed to show *"Approved by @Admin"*, and disable the buttons.
-  - If **Reject**: Set status to 'rejected', update the embed to show *"Rejected by @Admin"*, and disable the buttons.
-- [ ] **Implement Background Scheduler**
-  - Write a periodic check (e.g., checking every 10–30 minutes or running on startup) that queries the database for pending requests older than 12 hours.
-  - If a request is expired: Auto-approve, execute `guild.setName`, update database status to `auto_approved`, update admin embed to *"Auto-approved after 12 hours"*, and disable buttons.
+- [ ] ~~**Create Suggestion Command**~~
+  - ~~Command: `/rename-server <new-name>` (available to everyone).~~
+  - ~~Logic: Check if there is already a pending rename request. If yes, inform the user they must wait. Validate length (< 100 characters). Save the request to the database.~~
+- [ ] ~~**Implement Admin Approval Interface**~~
+  - ~~Send an Embed message to a designated moderator/admin channel.~~
+  - ~~Include details: requester, proposed name, time remaining.~~
+  - ~~Attach two buttons: "Approve" (Green) and "Reject" (Red). Use static custom IDs (e.g., `rename_approve` and `rename_reject`).~~
+- [ ] ~~**Handle Button Interactions**~~
+  - ~~Listen for button clicks from authorized moderators (`ManageGuild` or `Administrator` permissions) by matching the static custom IDs.~~
+  - ~~If **Approve**: Rename guild immediately (`guild.setName`), set status to 'approved', update the embed to show *"Approved by @Admin"*, and disable the buttons.~~
+  - ~~If **Reject**: Set status to 'rejected', update the embed to show *"Rejected by @Admin"*, and disable the buttons.~~
+- [ ] ~~**Implement Background Scheduler**~~
+  - ~~Write a periodic check (e.g., checking every 10–30 minutes or running on startup) that queries the database for pending requests older than 12 hours.~~
+  - ~~If a request is expired: Auto-approve, execute `guild.setName`, update database status to `auto_approved`, update admin embed to *"Auto-approved after 12 hours"*, and disable buttons.~~
 
 ---
 

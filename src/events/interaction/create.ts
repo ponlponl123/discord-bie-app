@@ -6,17 +6,12 @@
 import { Events } from "discord.js";
 import type { BotEvent } from "../../types.ts";
 import { handleChatInput } from "./handlers/chatInput.ts";
-import { handleRoleSelect } from "./handlers/roleSelect.ts";
 
 export const interactionCreate: BotEvent<Events.InteractionCreate> = {
   name: Events.InteractionCreate,
   async execute(interaction) {
     if (interaction.isChatInputCommand()) {
       await handleChatInput(interaction);
-    } else if (interaction.isStringSelectMenu()) {
-      if (interaction.customId === "role_select_menu") {
-        await handleRoleSelect(interaction);
-      }
     }
   },
 };
