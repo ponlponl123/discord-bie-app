@@ -1,6 +1,6 @@
 # Contributor TODO List & Roadmap
 
-Welcome to the **discord-bie-app** contributor list! This document outlines upcoming features, technical requirements, and architectural guides to help you build and maintain features for our private community bot.
+Welcome to the **discord-wumpus-app** contributor list! This document outlines upcoming features, technical requirements, and architectural guides to help you build and maintain features for our private community bot.
 
 ---
 

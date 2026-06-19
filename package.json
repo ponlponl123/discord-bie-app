@@ -1,12 +1,12 @@
 {
-  "name": "discord-bie-app",
+  "name": "discord-wumpus-app",
   "module": "src/index.ts",
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bun build src/index.ts --minify --compile --outfile discord-bie-app",
+    "build": "bun build src/index.ts --minify --compile --outfile discord-wumpus-app",
     "dev": "bun --watch src/index.ts",
-    "start": "./discord-bie-app"
+    "start": "./discord-wumpus-app"
   },
   "devDependencies": {
     "@types/bun": "latest",

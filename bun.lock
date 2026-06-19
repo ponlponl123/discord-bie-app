@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "discord-bie-app",
+      "name": "discord-wumpus-app",
       "dependencies": {
         "@prisma/adapter-mariadb": "^7.8.0",
         "@prisma/client": "^7.8.0",
